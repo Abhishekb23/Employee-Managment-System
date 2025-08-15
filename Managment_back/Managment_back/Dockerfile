@@ -1,26 +1,21 @@
-# Base runtime image
+# Base image for running the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 8080
 
-# Build stage
+# Build image with SDK
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Managment_back/Managment_back/Managment_back.csproj", "Managment_back/Managment_back/"]
+RUN dotnet restore "Managment_back/Managment_back/Managment_back.csproj"
 
-# Copy csproj and restore dependencies
-COPY ["Managment_back/Managment_back.csproj", "Managment_back/"]
-RUN dotnet restore "./Managment_back/Managment_back.csproj"
-
-# Copy everything else and build
 COPY . .
-WORKDIR "/src/Managment_back"
-RUN dotnet build "./Managment_back.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Managment_back/Managment_back"
+RUN dotnet build "Managment_back.csproj" -c Release -o /app/build
 
-# Publish stage
+# Publish step
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Managment_back.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Managment_back.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Final runtime image
 FROM base AS final
