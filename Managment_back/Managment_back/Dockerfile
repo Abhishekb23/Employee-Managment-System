@@ -8,9 +8,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["Managment_back/Managment_back.csproj", "Managment_back/"]
+# Copy the csproj and restore dependencies
+COPY Managment_back/Managment_back.csproj Managment_back/
 RUN dotnet restore "Managment_back/Managment_back.csproj"
 
+# Copy the rest of the source code
 COPY . .
 WORKDIR "/src/Managment_back"
 RUN dotnet build "Managment_back.csproj" -c $BUILD_CONFIGURATION -o /app/build
