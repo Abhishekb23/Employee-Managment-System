@@ -39,3 +39,41 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
+
+
+
+
+# .NET build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Logs
+*.log
+
+# Angular build output
+dist/
+out-tsc/
+.tmp/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+*.env
+
+# Docker stuff
+docker-compose.override.yml
+
+# Others
+*.DS_Store
+Thumbs.db
